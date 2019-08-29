@@ -13,9 +13,9 @@ function Button(x_, y_, w_, h_, writtenText_, activated_) {
   this.h = h_;
   this.writtenText = writtenText_;
   this.activated = activated_;
-  
+
   // Draws the button
-  
+
   this.draw = function() {
     noStroke();
     rectMode(CENTER);
@@ -27,21 +27,21 @@ function Button(x_, y_, w_, h_, writtenText_, activated_) {
       rect(this.x, this.y, this.w + this.h, this.h);
       fill(emptyColor);
     }
-    
+
     rect(this.x, this.y, this.w, this.h);
     circle(this.x - this.w/2, this.y, this.h);
     circle(this.x + this.w/2, this.y, this.h);
-    
+
     fill(obstacleColor);
     textSize(this.h/2 + 1);
     text(this.writtenText, this.x, this.y);
-    
+
     rectMode(CORNER);
   }
-  
+
   // Checks whether the button is under the mouse at the moment it is called
-  
-  this.clicked = function() {
+
+  this.underMouse = function() {
     if ((abs(mouseX - this.x) < this.w/2) && (abs(mouseY - this.y) < this.h/2)) {
       // inside rectangle
       return true;
