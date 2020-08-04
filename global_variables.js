@@ -13,8 +13,7 @@ let verticalMargin; // margin between the right border of the canvas and the gam
 
 let squares; // squares of the game, an array
 let currentSquare; // square corresponding to the player's current position
-let previousSquare; // square corresponding to the player's previous position
-let antepenultimateSquare; // square corresponding to the player's previous position, only used when undoing last move
+let previousSquares; // array of squares corresponding to the player's previous positions, in chronological order
 let canGoBack; // boolean value (true if the player can undo the last move)
 let solutions; // solution instructions encoded with characters ('u', 'd', 'r' or 'l')
 let screen; // string corresponding to the screen displayed ("start", "game", "end")

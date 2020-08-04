@@ -17,8 +17,7 @@ function setup() {
   horizontalMargin = (width - gameWidth) / 2;
   verticalMargin = (height - gameHeight) / 2;
 
-  previousSquare = undefined;
-  antepenultimateSquare = undefined;
+  previousSquares = [];
   canGoBack = false;
 
   easyLength = floor((1/2) * numSquares);
@@ -35,27 +34,31 @@ function setup() {
   mainColor = mediumColor;
 
   torusMode = false;
+  score = 0;
+  screen = "start";
 
   initButtons();
-
-  startScreen();
+  initSquares();
 }
 
 function draw() {
   // Managing the cursor type
   if (screen === "start") {
+    startScreen();
     if (easyButton.underMouse() || mediumButton.underMouse() || hardButton.underMouse() || torusOnButton.underMouse() || torusOffButton.underMouse() || startGameButton.underMouse()) {
       cursor(HAND);
     } else {
       cursor(ARROW);
     }
   } else if (screen === "game") {
+    gameScreen();
     if (quitButton.underMouse()) {
       cursor(HAND);
     } else {
       cursor(ARROW);
     }
   } else if (screen === "end") {
+    endScreen();
     if (backButton.underMouse()) {
       cursor(HAND);
     } else {
@@ -88,7 +91,7 @@ function keyPressed() {
 
     if (currentSquare.possibilities().length === 0) {
       // game over
-      endScreen();
+      screen = "end";
     }
 
     if (key === "z" && canGoBack) {
@@ -131,36 +134,39 @@ function mousePressed() {
       torusMode = true;
       torusOnButton.activated = true;
       torusOffButton.activated = false;
-      startScreen();
     }
 
     if (torusOffButton.underMouse()) {
       torusMode = false;
       torusOnButton.activated = false;
       torusOffButton.activated = true;
-      startScreen();
     }
 
     if (startGameButton.underMouse()) {
       //cursor(WAIT);
-      gameScreen();
+      createGame();
+      currentSquare = squares[0];
+      currentSquare.changeStatus();
+      screen = "game";
       //cursor(ARROW);
     }
 
   } else if (screen === "game") {
 
     if (quitButton.underMouse()) {
-      endScreen();
+      screen = "end";
     }
 
   } else if (screen === "end") {
 
     if (backButton.underMouse()) {
       // reset
-      previousSquare = undefined;
-      antepenultimateSquare = undefined;
+      previousSquares = [];
+      currentSquare = undefined;
       canGoBack = false;
-      startScreen();
+      screen = "start";
+      score = 0;
+      initSquares();
     }
 
   }

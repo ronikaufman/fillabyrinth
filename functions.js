@@ -10,6 +10,19 @@ function drawGame() {
       square.draw(emptyColor);
     }
   }
+  if (previousSquares[0]) {
+    previousSquares[0].draw(mainColor);
+  }
+  for (let i = 1; i < score; i++) {
+    previousSquares[i].draw(mainColor);
+    drawBridge(previousSquares[i], previousSquares[i-1]);
+  }
+  if (currentSquare) {
+    if (score > 0) {
+      drawBridge(previousSquares[score-1], currentSquare);
+    }
+    currentSquare.draw(mainColor);
+  }
 }
 
 // Draws the buttons from the current screen
@@ -163,7 +176,7 @@ function prepareGame() {
     square = square.get(direction);
     square.changeStatus();
     square.isObstacle = false;
-    square.draw(emptyColor);
+    //square.draw(emptyColor);
   }
 }
 
@@ -226,10 +239,6 @@ function watchSolution() {
 // Creates the start screen
 
 function startScreen() {
-  screen = "start";
-  score = 0;
-  initSquares();
-
   background(backgroundColor);
   drawGame();
   drawButtons();
@@ -243,12 +252,9 @@ function startScreen() {
   text("Torus mode:", width/2 - 108, verticalMargin + gameHeight + 100);
 }
 
-// Creates the game screen and initializes the game
+// Creates the game screen
 
 function gameScreen() {
-  screen = "game";
-  createGame();
-
   background(backgroundColor);
   drawGame();
   drawButtons();
@@ -256,18 +262,14 @@ function gameScreen() {
   showScoreTag();
   textSize(21);
   text("Use the arrow keys to move.\n Press z to undo your last move.", width/2, verticalMargin + gameHeight + 42);
-
-  currentSquare = squares[0];
-  currentSquare.changeStatus();
-  currentSquare.draw(mainColor);
 }
 
 // Creates the end screen
 
 function endScreen() {
   // There was no other way...
-  screen = "end";
-
+  background(backgroundColor);
+  drawGame();
   fill(backgroundColor);
   rect(0, 0, width, verticalMargin);
   rect(0, verticalMargin + gameHeight, width, verticalMargin);
@@ -302,39 +304,22 @@ function showScoreTag(txt) {
 // Lets the player move to the direction given as parameter
 
 function goTo(direction) {
-  antepenultimateSquare = previousSquare;
-  previousSquare = currentSquare;
+  currentSquare.changeStatus();
+  previousSquares.push(currentSquare);
   currentSquare = currentSquare.get(direction);
 
   fill(mainColor);
-  drawBridge(currentSquare, previousSquare);
   currentSquare.draw(mainColor);
 
-  previousSquare.changeStatus();
   score++;
   canGoBack = true;
-  showScoreTag();
 }
 
 // During the game, undoes the last move
 
 function goBack() {
-  fill(backgroundColor);
-  drawBridge(currentSquare, previousSquare);
-  if (antepenultimateSquare) {
-    fill(mainColor);
-    drawBridge(antepenultimateSquare, previousSquare);
-  }
-  currentSquare.draw(emptyColor);
-  previousSquare.draw(mainColor);
-
-  currentSquare = previousSquare;
-  if (antepenultimateSquare) {
-    previousSquare = antepenultimateSquare;
-  }
-
   currentSquare.changeStatus();
+  currentSquare = previousSquares.pop();
   score--;
   canGoBack = false;
-  showScoreTag();
 }
