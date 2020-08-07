@@ -25,12 +25,12 @@ function setup() {
   hardLength = floor((3/4) * numSquares);
   gameLength = mediumLength;
 
-  backgroundColor = color(97);
+  backgroundColor = color(98);
   emptyColor = color(0, 0, 89);
-  obstacleColor = color(0, 0, 20);
-  easyColor = color(16, 90, 95);
-  mediumColor = color(55, 90, 95);
-  hardColor = color(3, 90, 95);
+  obstacleColor = color(0, 0, 15);
+  easyColor = color(16, 85, 95);
+  mediumColor = color(56, 85, 95);
+  hardColor = color(2, 85, 95);
   mainColor = mediumColor;
 
   torusMode = false;
@@ -145,8 +145,6 @@ function mousePressed() {
     if (startGameButton.underMouse()) {
       //cursor(WAIT);
       createGame();
-      currentSquare = squares[0];
-      currentSquare.changeStatus();
       screen = "game";
       //cursor(ARROW);
     }

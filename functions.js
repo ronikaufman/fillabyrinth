@@ -21,7 +21,7 @@ function drawGame() {
     if (score > 0) {
       drawBridge(previousSquares[score-1], currentSquare);
     }
-    currentSquare.draw(mainColor);
+    currentSquare.draw(mainColor, isCurrent = true);
   }
 }
 
@@ -178,6 +178,8 @@ function prepareGame() {
     square.isObstacle = false;
     //square.draw(emptyColor);
   }
+
+  currentSquare = squares[0];
 }
 
 // Pops a random element in the Array arr
@@ -304,12 +306,9 @@ function showScoreTag(txt) {
 // Lets the player move to the direction given as parameter
 
 function goTo(direction) {
-  currentSquare.changeStatus();
   previousSquares.push(currentSquare);
   currentSquare = currentSquare.get(direction);
-
-  fill(mainColor);
-  currentSquare.draw(mainColor);
+  currentSquare.changeStatus();
 
   score++;
   canGoBack = true;

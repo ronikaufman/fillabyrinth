@@ -21,18 +21,37 @@ function Button(x_, y_, w_, h_, writtenText_, activated_) {
     rectMode(CENTER);
 
     if (this.activated) {
-      fill(mainColor);
+      if (this.underMouse()) {
+        fill(obstacleColor);
+      } else {
+        fill(mainColor);
+      }
     } else {
-      fill(backgroundColor);
-      rect(this.x, this.y, this.w + this.h, this.h);
-      fill(emptyColor);
+      if (this.underMouse()) {
+        fill(obstacleColor);
+      } else {
+        fill(emptyColor);
+      }
     }
 
     rect(this.x, this.y, this.w, this.h);
     circle(this.x - this.w/2, this.y, this.h);
     circle(this.x + this.w/2, this.y, this.h);
 
-    fill(obstacleColor);
+    if (this.activated) {
+      if (this.underMouse()) {
+        fill(mainColor);
+      } else {
+        fill(obstacleColor);
+      }
+    } else {
+      if (this.underMouse()) {
+        fill(emptyColor);
+      } else {
+        fill(obstacleColor);
+      }
+    }
+
     textSize(this.h/2 + 1);
     text(this.writtenText, this.x, this.y);
 
