@@ -285,8 +285,12 @@ function endScreen() {
   textSize(21);
   text("Here was one possible solution.", width/2, verticalMargin + gameHeight + 42);
   textSize(25);
-  let percent = round(score/gameLength*1000)/10;
-  text("Final score: " + percent + "%", width/2, verticalMargin - 25);
+  let percent = score/gameLength*100;
+  let scoreString = percent.toFixed(2);
+  if (percent < 10) {
+    scoreString = "0" + scoreString;
+  }
+  text("Final score: " + scoreString + "%", width/2, verticalMargin - 25);
 
   watchSolution();
   drawButtons();
@@ -299,8 +303,12 @@ function showScoreTag(txt) {
   rect(0, verticalMargin/2, width, verticalMargin/2);
   fill(obstacleColor);
   textSize(25);
-  let percent = round(score/gameLength*1000)/10;
-  text("Current score: " + percent + "%", width/2, verticalMargin - 25);
+  let percent = score/gameLength*100;
+  let scoreString = percent.toFixed(2);
+  if (percent < 10) {
+    scoreString = "0" + scoreString;
+  }
+  text("Current score: " + scoreString + "%", width/2, verticalMargin - 25);
 }
 
 // Lets the player move to the direction given as parameter
